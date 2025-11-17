@@ -19,10 +19,8 @@ services:
     ports:
       - "9200:9200"
       - "9600:9600"
-    networks:
-      - opensearch-net
-    # Required for LXC containers to allow sysctl modifications
-    privileged: true
+    # Use host network mode to avoid sysctl issues in LXC
+    network_mode: host
     healthcheck:
       test: ["CMD-SHELL", "curl -s -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s || exit 1"]
       interval: 30s
@@ -33,13 +31,11 @@ services:
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:2.11.0
     container_name: rely-opensearch-dashboards
-    ports:
-      - "5601:5601"
     environment:
-      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - 'OPENSEARCH_HOSTS=["http://localhost:9200"]'
       - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
-    networks:
-      - opensearch-net
+    # Use host network mode to match opensearch
+    network_mode: host
     depends_on:
       opensearch:
         condition: service_healthy
@@ -47,7 +43,3 @@ services:
 volumes:
   opensearch-data:
     driver: local
-
-networks:
-  opensearch-net:
-    driver: bridge
