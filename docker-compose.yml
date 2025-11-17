@@ -9,6 +9,7 @@ services:
       - bootstrap.memory_lock=false
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - DISABLE_SECURITY_PLUGIN=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
     ulimits:
       nofile:
         soft: 65536
@@ -20,6 +21,8 @@ services:
       - "9600:9600"
     networks:
       - opensearch-net
+    # Required for LXC containers to allow sysctl modifications
+    privileged: true
     healthcheck:
       test: ["CMD-SHELL", "curl -s -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s || exit 1"]
       interval: 30s
