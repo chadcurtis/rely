@@ -181,6 +181,35 @@ However, the Dispatcher is not the ultimate authority on the subscriptions state
 Rely fetures unit tests for components that make sense to test in isolation.
 More importantly, we have a [random stress test](https://github.com/pippellia-btc/rely/blob/main/tests/stress_test.go) where the relay is bombarded with thousands of connections, events, filters, and abrupt disconnections every second. This test alone allowed the discovery of hard concurrency bugs and race conditions impossible to detect with simplistic unit tests.
 
+## Storage Backends
+
+Rely is storage-agnostic and can work with any database. We provide official storage implementations:
+
+### OpenSearch
+A high-performance, scalable storage backend using OpenSearch for event indexing and querying.
+
+Features:
+- Advanced full-text search capabilities
+- Efficient tag-based filtering with nested queries
+- Time-range optimized queries
+- NIP-45 COUNT support
+- Horizontal scaling with sharding
+- Production-ready with clustering support
+
+See the [OpenSearch storage documentation](/storage/opensearch/README.md) and [example](/examples/opensearch/main.go) for more details.
+
+Quick start:
+```bash
+# Start OpenSearch with Docker
+docker-compose up -d
+
+# Copy and configure .env
+cp .env.example .env
+
+# Run the example
+go run examples/opensearch/main.go
+```
+
 ## Used by
 
 This section lists project and repositories that are using rely in production.

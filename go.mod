@@ -7,7 +7,9 @@ toolchain go1.24.2
 require (
 	github.com/goccy/go-json v0.10.5
 	github.com/gorilla/websocket v1.5.3
+	github.com/joho/godotenv v1.5.1
 	github.com/nbd-wtf/go-nostr v0.51.8
+	github.com/opensearch-project/opensearch-go/v2 v2.3.0
 	github.com/pippellia-btc/slicex v0.2.5
 	github.com/pippellia-btc/smallset v0.4.1
 )
